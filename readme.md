@@ -10,7 +10,7 @@ Note: This is a practice for AI Drug Discovery (AIDD) **without** further analys
 
 # 2. Usage
 
-The detailed procedures of constructing these models have been specified in name of each file.
+The detailed procedures for constructing these models have been specified in the name of each file.
 
 # 3. Conclusion
 
@@ -18,13 +18,13 @@ Both these two models can perform well. Here are some thoughts and potential pro
 
 ## 3.1.  Different distribution of data in both datasets
 
-Such a different distribution leads to deviations of training results. The use of ChEMBL datasets resulted in a R2 score of around 0.72, while the figure for BindingDB datasets was only 0.47. So, I made the judgement based on these results: ChEMBL datasets contained more high-quality data than BindingDB datasets. To deal with this problem, I apply transfer learning for both ChEMBL and BindingDB datasets. The sequence of using these two datasets were determined by trail-and-error. The results showed that training the model with BindingDB data ended with better overall performance (**around 0.82 of R2 score**). The potential explanation could be that the model learned noises at the beginning, increasing the robustness when transferring the model on less-polluted ChEMBL datasets.
+Such a different distribution leads to deviations in training results. The use of ChEMBL datasets resulted in an R2 score of around 0.72, while the figure for BindingDB datasets was only 0.47. So, I made the judgement based on these results: ChEMBL datasets contained more high-quality data than BindingDB datasets. To deal with this problem, I apply transfer learning for both ChEMBL and BindingDB datasets. The sequence of using these two datasets was determined by trial and error. The results showed that training the model with BindingDB data ended with better overall performance (**around 0.82 of R2 score**). The potential explanation could be that the model learned noises initially, increasing the robustness when it was transferred to less-polluted ChEMBL datasets.
 
-## 3.2 Imbalanced bioactivity labels in classification model
+## 3.2 Imbalanced bioactivity labels in datasets
 
-Although using a pIC50 value of 6.0 as a threshold to classify the bioactivity can pass all statistical analysis, the resulted datasets contained much more 'active' data than 'inactive' data. Therefore, the parameter of class_weight must be set to be '**balanced**'.
+Although using a pIC50 value of 6.0 as a threshold to classify the bioactivity can pass all statistical analysis, the resulting datasets contained much more 'active' data than 'inactive' data. Therefore, the parameter of class_weight must be set to be '**balanced**'.
 
 
 ## 3.3 Optimizing model
 
-The nature of QSAR model hinders the flexibility of optimization to some extent. Such a model mainly uses 2D structure 'smiles' to store the physical and chemical information, calculating molecular descriptors, (such as fingerprints, molecular weight and logP value), as well as predicting the bioactivity. In other words, the degree of freedom for optimization is limited in 2D structure since many useful information may be lost during this 'compression' from 3D to 2D. While Graph Neural Network (GNN) might help, it is a trade-off strategy because the size of datasets must increase for training.
+The nature of the QSAR model hinders the flexibility of optimization to some extent. Such a model mainly uses 2D structure 'smiles' to store the physical and chemical information, calculate molecular descriptors, (such as fingerprints, molecular weight and logP value), and predict the bioactivity. In other words, the degree of freedom for optimization is limited in 2D structure since much useful information may be lost during this 'compression' from 3D to 2D. While Graph Neural Network (GNN) might help, it is a trade-off strategy because the size of datasets must increase for training.
